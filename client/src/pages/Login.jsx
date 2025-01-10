@@ -84,7 +84,7 @@ const Login = () => {
   ])
 
   return (
-    <div className="flex items-center w-full justify-center">
+    <div className="flex items-center w-full justify-center mt-5">
       <Tabs defaultValue="account" className="w-[400px]">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="signup">Signup</TabsTrigger>
@@ -93,7 +93,7 @@ const Login = () => {
         <TabsContent value="signup">
           <Card>
             <CardHeader>
-              <CardTitle>Signup</CardTitle>
+              <CardTitle className="text-purple-800 dark:text-white font-extrabold text-2xl">Signup</CardTitle>
               <CardDescription>
                 Join us today! Fill in your details and click Sign Up to get
                 started:
@@ -135,7 +135,7 @@ const Login = () => {
               </div>
             </CardContent>
             <CardFooter>
-              <Button disabled={registerIsLoading} onClick={() => handleRegistration("signup")}>
+              <Button disabled={registerIsLoading} onClick={() => handleRegistration("signup")} className="bg-purple-800 hover:bg-purple-900 text-white w-full">
                {
                 registerIsLoading ? (
                   <>
@@ -147,10 +147,10 @@ const Login = () => {
             </CardFooter>
           </Card>
         </TabsContent>
-        <TabsContent value="login">
+        <TabsContent value="login" >
           <Card>
             <CardHeader>
-              <CardTitle>Login</CardTitle>
+              <CardTitle className="text-purple-800 dark:text-white font-extrabold text-2xl">Login</CardTitle>
               <CardDescription>
                 Welcome back! 👋 Enter your details below to access your
                 account:
@@ -179,7 +179,7 @@ const Login = () => {
               </div>
             </CardContent>
             <CardFooter>
-              <Button disabled={loginIsLoading} onClick={() => handleRegistration("login")}>{loginIsLoading ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/></>) :"Login" } </Button>
+              <Button disabled={loginIsLoading} onClick={() => handleRegistration("login")} className="bg-purple-800 hover:bg-purple-900 text-white w-full" >{loginIsLoading ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/></>) :"Login" } </Button>
             </CardFooter>
           </Card>
         </TabsContent>
