@@ -26,7 +26,7 @@ const HeroSection = () => {
   return (
     <div className="relative bg-gradient-to-r from-gray-500 to bg-purple-800 dark:from-gray-800 dark:to-gray-900 py-4 text-center">
       <div className="max-w-3xl mx-auto ">
-        <h1 className="text-white text-4xl font-bold mb-4 font-sans">
+        <h1 className="text-white text-4xl font-bold mb-4 font-sans ">
           This is an online learning and teaching marketplace with over{" "}
           <span className="text-purple-950">{number}+</span>courses and 73
           thousands students
@@ -36,7 +36,7 @@ const HeroSection = () => {
         </p>
         <form
           action=""
-          className="flex  items-center bg-white dark:bg-gray-800 rounded-full shadow-lg overflow-hidden mb-2"
+          className="flex  items-center bg-white dark:bg-gray-800 rounded-full shadow-lg overflow-hidden mb-2 md:m-2"
         >
           <Input
             type="text"
