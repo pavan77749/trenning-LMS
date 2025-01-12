@@ -1,27 +1,31 @@
+import React from 'react'
+import Course from './Course'
 import { Skeleton } from "@/components/ui/skeleton"
 import { Card, CardContent } from "@/components/ui/card"
-import Course from "./Course";
 
-const courses = [1,2,3,4,5,6,7,8]
 
-const Courses = () => {
+const Mylearning = () => {
     const isLoading = false;
+    const myLearningCourses =  [2];
   return (
-    <div className="bg-gray-50">
-        <div className="max-w-7xl mx-auto p-6">
-            <h2 className="font-sans text-4xl text-center font-extrabold mb-10">Our Courses</h2>
-            <div className="grid-cols-1 grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className='max-w-4xl mx-auto my-10 px-4 md:px-0'>
+        <h1 className='font-extrabold text-2xl'>My Learning</h1>
+        <div className="my-5 ">
+        {
+          isLoading ? ( <CourseSkeleton/> ) :  myLearningCourses.length === 0 ? ( <p className='font-medium text-xl '>You are not enrolled in any Course</p>) : 
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
             {
-                isLoading ? Array.from({length:8}).map((_,index) => (<CourseSkeleton key={index}/>))   : courses.map((course,index) => <Course key={index}/>)
-            }   
-            </div>
-        </div>
+              [1,2].map((course,index)=><Course key={index}/>) 
+            }
+          </div>
 
+        }
+        </div>
     </div>
   )
 }
 
-export default Courses
+export default Mylearning
 
 const CourseSkeleton = () =>{
     return (
@@ -41,4 +45,3 @@ const CourseSkeleton = () =>{
     </Card>
     )
 }
-

@@ -25,6 +25,7 @@ import { Menu } from "lucide-react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Separator } from "@/components/ui/separator"
+import { Link } from "react-router-dom";
 
 
 
@@ -55,7 +56,7 @@ export const Navbar = () => {
             <DropdownMenuContent>
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>My Learning</DropdownMenuItem>
+              <DropdownMenuItem><Link to="my-learning">My Learning</Link> </DropdownMenuItem>
               <DropdownMenuItem>Edit Profile</DropdownMenuItem>
               <DropdownMenuItem>Logout</DropdownMenuItem>
             <DropdownMenuSeparator />

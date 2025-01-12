@@ -19,7 +19,7 @@ const Course = () => {
   <AvatarImage src="https://github.com/shadcn.png" />
   <AvatarFallback>CN</AvatarFallback>
 </Avatar>
-<h1 className="font-medium text-sm">Patel </h1>
+<h1 className="font-medium text-sm">Pavan </h1>
                 </div>
 <Badge className="bg-purple-800 text-white px-2 py-1 text-xs rounded-full" >Advance</Badge>
                 </div>
