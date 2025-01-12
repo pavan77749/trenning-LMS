@@ -36,12 +36,14 @@ export const Navbar = () => {
   return (
     <div className="h-16 dark:bg-[#0a0a0a] bg-white border-b dark:border-b-gray-200 top-0 left-0 right-0 duration-300 z-10">
       <div className="md:flex max-w-7xl mx-auto items-center justify-between gap-10 h-full hidden  ">
-        <div className="flex items-center gap-2">
+        <Link to="/">
+        <div className="flex items-center gap-2 cursor-pointer">
           <GraduationCap size={"30"}  className="text-purple-800 dark:text-white" />
           <h1 className="hidden md:block font-extrabold text-2xl font-sans text-purple-800 dark:text-white">
             trenning
           </h1>
         </div>
+        </Link>
       {/* User icons and dark mode  */}
       <div className="flex items-center gap-8">
         { user ? (
@@ -57,7 +59,7 @@ export const Navbar = () => {
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem><Link to="my-learning">My Learning</Link> </DropdownMenuItem>
-              <DropdownMenuItem>Edit Profile</DropdownMenuItem>
+              <DropdownMenuItem  > <Link to="profile"> Edit Profile</Link></DropdownMenuItem>
               <DropdownMenuItem>Logout</DropdownMenuItem>
             <DropdownMenuSeparator />
             {
