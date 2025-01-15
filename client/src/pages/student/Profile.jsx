@@ -15,10 +15,13 @@ import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
 import Course from './Course'
 import { Skeleton } from "@/components/ui/skeleton"
+import { useLoadUserQuery } from '@/features/api/authApi'
 
 const Profile = () => {
-  const isLoading = false;
-  const enrolledCourses = [1,2,3];
+  const {data, isLoading} = useLoadUserQuery();
+
+  const user = data?.user;
+
   return (
     <>{
       isLoading ? (<ProfileSkeleton />)  :  <div className='max-w-4xl mx-auto my-20 px-4'>
@@ -26,18 +29,18 @@ const Profile = () => {
       <div className='  py-3 flex flex-col md:flex-row items-center md:items-start'>
         <div className='  flex flex-col md:flex-row '>
             <Avatar className="h-24 w-24 md:h-32 md:w-32 mb-4">
-            <AvatarImage src="https://github.com/shadcn.png"  className="cursor-pointer"/>
+            <AvatarImage src={user.profileUrl}  className="cursor-pointer"/>
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div className="ml-4">
             <div className="mb-2">
-              <h1 className='font-semibold font-sans text-gray-900 dark:text-gray-100 '>Name: <span className='font-normal text-gray-700 dark:text-gray-300'>Pavan Gupta</span></h1>
+              <h1 className='font-semibold font-sans text-gray-900 dark:text-gray-100 '>Name: <span className='font-normal text-gray-700 dark:text-gray-300'>{user.name}</span></h1>
             </div>
             <div className="mb-2">
-              <h1 className='font-semibold font-sans text-gray-900 dark:text-gray-100 '>Email: <span className='font-normal text-gray-700 dark:text-gray-300'>pavan12@gmail.com</span></h1>
+              <h1 className='font-semibold font-sans text-gray-900 dark:text-gray-100 '>Email: <span className='font-normal text-gray-700 dark:text-gray-300'>{user.email}</span></h1>
             </div>
             <div className="mb-2">
-              <h1 className='font-semibold font-sans text-gray-900 dark:text-gray-100 '>Role: <span className='font-normal text-gray-700 dark:text-gray-300'>Student</span></h1>
+              <h1 className='font-semibold font-sans text-gray-900 dark:text-gray-100 '>Role: <span className='font-normal text-gray-700 dark:text-gray-300'>{user.role.toUpperCase()}</span></h1>
             </div>
             <Dialog>
       <DialogTrigger asChild>
@@ -85,8 +88,8 @@ const Profile = () => {
         <h1 className="text-lg font-medium font-bold font-sans">Courses you're enrolled in</h1>
         <div className="grid  grid-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-4 my-4">
           {
-            enrolledCourses.length === 0 ? <h1>You are not enrolled in any Course</h1> : enrolledCourses.map((course,index)=><Course key={index}/>)
-          }
+            user.enrolledCourses.length === 0 ? (<h1>You are not enrolled in any Course</h1> ) : (user.enrolledCourses.map((course,index)=><Course course={course} key={course._id}/>)
+          )}
         </div>
         </div>
     </div>
