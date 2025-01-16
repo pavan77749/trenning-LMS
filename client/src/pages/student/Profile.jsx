@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   Dialog,
@@ -15,12 +15,46 @@ import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
 import Course from './Course'
 import { Skeleton } from "@/components/ui/skeleton"
-import { useLoadUserQuery } from '@/features/api/authApi'
+import { useLoadUserQuery, useUpdateUserMutation } from '@/features/api/authApi'
+import { toast } from 'sonner'
 
 const Profile = () => {
-  const {data, isLoading} = useLoadUserQuery();
+  const [name,setName ] = useState("");
+  const [profilePhoto, setProfilePhoto] =useState("")
 
-  const user = data?.user;
+  const {data, isLoading,refetch} = useLoadUserQuery();
+  const [updateUser,{data:updateUserData,isLoading:updateUserIsLoading,isError,error,isSuccess}] = useUpdateUserMutation();
+
+  const onChangeHandler = (e)=> {
+    const file = e.target.files?.[0];
+    
+    if(file) setProfilePhoto(file)
+  }
+
+  const updateUserHandler = async () => {
+    const formData = new FormData();
+    formData.append("name",name);
+    formData.append("profilePhoto", profilePhoto)
+    await updateUser(formData)
+  }
+
+  useEffect(() => {
+    refetch();
+  }, []);
+
+  useEffect(()=>{
+    if(isSuccess){
+      refetch();
+      toast.success(data.message || "Profile Updated")
+    }
+    if(isError){
+      toast.error(error.message || "Failed to Update profile")
+    }
+  }, [error, updateUserData, isSuccess, isError])
+
+  
+  const user = data && data.user;
+  // console.log(user)
 
   return (
     <>{
@@ -29,7 +63,7 @@ const Profile = () => {
       <div className='  py-3 flex flex-col md:flex-row items-center md:items-start'>
         <div className='  flex flex-col md:flex-row '>
             <Avatar className="h-24 w-24 md:h-32 md:w-32 mb-4">
-            <AvatarImage src={user.profileUrl}  className="cursor-pointer"/>
+            <AvatarImage src={user?.photoUrl || "https://github.com/shadcn.png"}  className="cursor-pointer"/>
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div className="ml-4">
@@ -58,20 +92,20 @@ const Profile = () => {
             <Label >
               Name
             </Label>
-            <Input id="name"  className="col-span-3" />
+            <Input id="name" placeholder="Name" onChange={(e)=> setName(e.target.value)} className="col-span-3" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label  >
               Profile Photo
             </Label>
-            <Input type="file" accept="image/*" className="col-span-3" />
+            <Input type="file" accept="image/*" className="col-span-3" onChange={onChangeHandler} />
           </div>
         </div>
         <DialogFooter>
-         <Button disabled={isLoading} className="bg-purple-800">
+         <Button disabled={updateUserIsLoading} className="bg-purple-800" onClick={updateUserHandler}>
           {
       
-            isLoading ? ( <>
+            updateUserIsLoading ? ( <>
               <Loader2 className='animate-spin mr-2 h-4 w-4 '/> Please Wait
             </>
             ) : "Save Changes"
