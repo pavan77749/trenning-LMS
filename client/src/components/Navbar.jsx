@@ -1,5 +1,5 @@
-import { GraduationCap } from "lucide-react";
-import React from "react";
+import { GraduationCap, Store } from "lucide-react";
+import React, { useEffect } from "react";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -25,14 +25,28 @@ import { Menu } from "lucide-react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Separator } from "@/components/ui/separator"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useLogoutUserMutation } from "@/features/api/authApi";
+import { toast } from "sonner";
+import { useSelector } from "react-redux";
 
 
 
 
 export const Navbar = () => {
-        const user = true;
-        const role = "instructor"
+        const {user} = useSelector(store=>store.auth )
+        const [logoutUser, {data, isSuccess}] = useLogoutUserMutation()
+        const navigate = useNavigate()
+        const logoutHandler = async () => {
+          await logoutUser()
+        }
+
+        useEffect(()=>{
+          if(isSuccess){
+            toast.success(data.message || "User Logout")
+            navigate("/login")
+          }
+        },[isSuccess])
   return (
     <div className="h-16 dark:bg-[#0a0a0a] bg-white border-b dark:border-b-gray-200 top-0 left-0 right-0 duration-300 z-10">
       <div className="md:flex max-w-7xl mx-auto items-center justify-between gap-10 h-full hidden  ">
@@ -50,7 +64,7 @@ export const Navbar = () => {
             <DropdownMenu>
             <DropdownMenuTrigger asChild>
             <Avatar>
-  <AvatarImage src="https://github.com/shadcn.png"  className="cursor-pointer"/>
+  <AvatarImage src={user?.photoUrl ||"https://github.com/shadcn.png"}  className="cursor-pointer"/>
   <AvatarFallback>CN</AvatarFallback>
 </Avatar>
 
@@ -60,10 +74,10 @@ export const Navbar = () => {
               <DropdownMenuSeparator />
               <DropdownMenuItem><Link to="my-learning">My Learning</Link> </DropdownMenuItem>
               <DropdownMenuItem  > <Link to="profile"> Edit Profile</Link></DropdownMenuItem>
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem onClick={logoutHandler}>Logout</DropdownMenuItem>
             <DropdownMenuSeparator />
             {
-              role === "instructor" && (
+              user?.role === "instructor" && (
                 <DropdownMenuItem>Dashboard</DropdownMenuItem>
               )
             }
@@ -71,8 +85,8 @@ export const Navbar = () => {
           </DropdownMenu>      
         ):(
             <div className="flex items-center gap-2">
-                <Button variant="outline">Login</Button>
-                <Button className="bg-purple-800 hover:bg-purple-900">Signup</Button>
+                <Button variant="outline" onClick={()=> navigate("/login")}>Login</Button>
+                <Button className="bg-purple-800 hover:bg-purple-900" onClick={()=> navigate("/login")} >Signup</Button>
             </div>
         ) }
         <DarkMode/>
