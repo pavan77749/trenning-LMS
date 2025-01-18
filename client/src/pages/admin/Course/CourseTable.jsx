@@ -18,7 +18,7 @@ import { Badge } from '@/components/ui/badge'
 
 const CourseTable = () => {
     const {data,isLoading,refetch} = useGetCreatroCourseQuery();
-    console.log(data)
+
     const navigate = useNavigate()
 
      useEffect(() => {
@@ -44,7 +44,7 @@ const CourseTable = () => {
             <TableCell className="font-medium">{course?.courseTitle}</TableCell>
             <TableCell>{course?.coursePrice || "NA"}</TableCell>
             <TableCell><Badge > {course?.isPublished ? <span className='bg-green-400'>Published</span> : "Draft"}</Badge></TableCell>
-            <TableCell className="text-right"><Button variant="ghost" ><Edit/></Button></TableCell>
+            <TableCell className="text-right"><Button variant="ghost" onClick={()=>navigate(`${course._id}`)}><Edit/></Button></TableCell>
           </TableRow>
           ))
         }

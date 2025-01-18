@@ -13,6 +13,7 @@ import Slidebar from './pages/admin/Slidebar'
 import Dashboard from './pages/admin/Dashboard'
 import CourseTable from './pages/admin/Course/CourseTable'
 import AddCourse from './pages/admin/Course/AddCourse'
+import EditCourse from './pages/admin/Course/EditCourse'
 
 const appRouter = createBrowserRouter([
   {
@@ -54,6 +55,10 @@ const appRouter = createBrowserRouter([
       {
         path:"course/create",
         element:<AddCourse/>
+      },
+      {
+        path:"course/:courseId",
+        element:<EditCourse/>
       }
     ]
     }
