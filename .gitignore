@@ -28,6 +28,7 @@ thumb
 sketch
 
 .env
+uploads
 
 
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Git,react,dotenv,mern
