@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Loader2 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEditCourseMutation } from "@/features/api/cousreApi";
+import { useEditCourseMutation, useGetCourseByIdQuery } from "@/features/api/cousreApi";
 import { toast } from "sonner";
 import { useEffect } from "react";
 
@@ -61,7 +61,7 @@ const CourseTab = () => {
   // get file
   const selectThumbnail = (e) => {
     const file = e.target.files?.[0];
-    console.log(file)
+    // console.log(file)
     if (file) {
       setInput({ ...input, courseThumbnail: file });
       const fileReader = new FileReader();
@@ -85,12 +85,33 @@ const CourseTab = () => {
   useEffect(()=>{
     if(isSuccess){
       toast.success(data.message || "Course Updated");
+      navigate("/admin/course")
     }
     if(isError){
       toast.error(error.message || "Failed to Update Course")
     }
   },[isSuccess,error,isError])
 
+
+  // fetch the course details
+  const {data:courseByIdData,isLoading:courseByIdLoading} = useGetCourseByIdQuery(courseId);
+  // const course = courseByIdData?.course;
+  useEffect(()=>{
+    if(courseByIdData?.course){
+      const course = courseByIdData?.course
+      setInput({
+        courseTitle: course.courseTitle,
+        subTitle: course.subTitle,
+        description: course.description,
+        category: course.category,
+        courseLevel: course.courseLevel,
+        coursePrice: course.coursePrice,
+        courseThumbnail: "",
+      })
+    
+      
+    }
+  },[courseByIdData])
   const isPublished = true;
   return (
     <Card>
