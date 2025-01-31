@@ -24,7 +24,7 @@ const CreateLecture = () => {
 
     // fetch the lecture details
     const {data:lectureData , isLoading:lectureLoading ,isError:lectureError,refetch} = useGetCourseLectureQuery(courseId)
-    console.log(lectureData)
+    // console.log(lectureData)
     useEffect(()=>{
         if(isSuccess){
             toast.success(data.message || "Lecture Title Created")

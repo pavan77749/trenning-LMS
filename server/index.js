@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors"
 import bodyParser from "body-parser";
 import courseRoute from "./routes/course.routes.js"
+import mediaRoute from "./routes/media.routes.js"
 
 dotenv.config({})
 
@@ -28,6 +29,7 @@ app.use(cors(corsOptions))
 //api
 app.use("/api/v1/user",userRoute)
 app.use("/api/v1/course",courseRoute)
+app.use("/api/v1/media",mediaRoute)
 
 app.listen(PORT,()=>{
     console.log(`Server listen on port ${PORT}`)
