@@ -22,6 +22,12 @@ export const courseApi = createApi({
         method: "GET",
       }),
     }),
+    getPublishedCourse:builder.query({
+      query:() => ({
+        url:"/published-courses",
+        method:"GET"
+      })
+    }),
     editCourse: builder.mutation({
       query: ({ formData, courseId }) => ({
         url: `/${courseId}`,
@@ -84,6 +90,7 @@ export const courseApi = createApi({
 
 export const {
   useCreateCourseMutation,
+  useGetPublishedCourseQuery,
   useGetCreatroCourseQuery,
   useEditCourseMutation,
   useGetCourseByIdQuery,
