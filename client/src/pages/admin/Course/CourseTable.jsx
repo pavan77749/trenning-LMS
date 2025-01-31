@@ -43,7 +43,7 @@ const CourseTable = () => {
           <TableRow key={course._id} >
             <TableCell className="font-medium">{course?.courseTitle}</TableCell>
             <TableCell>{course?.coursePrice || "NA"}</TableCell>
-            <TableCell><Badge > {course?.isPublished ? <span className='bg-green-400'>Published</span> : "Draft"}</Badge></TableCell>
+            <TableCell><Badge className={course?.isPublished ? "bg-green-500" : "bg-black" } > {course?.isPublished ? "Published" : "Draft"}</Badge></TableCell>
             <TableCell className="text-right"><Button variant="ghost" onClick={()=>navigate(`${course._id}`)}><Edit/></Button></TableCell>
           </TableRow>
           ))

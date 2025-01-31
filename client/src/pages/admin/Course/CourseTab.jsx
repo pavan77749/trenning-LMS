@@ -21,12 +21,14 @@ import {
 } from "@/components/ui/select";
 import { Loader2 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEditCourseMutation, useGetCourseByIdQuery } from "@/features/api/cousreApi";
+import { useEditCourseMutation, useGetCourseByIdQuery, usePublishCourseMutation, useRemoveCourseMutation } from "@/features/api/cousreApi";
 import { toast } from "sonner";
 import { useEffect } from "react";
 
+
 const CourseTab = () => {
   const params = useParams()
+
   const courseId = params.courseId;
   const [input, setInput] = useState({
     courseTitle: "",
@@ -94,7 +96,7 @@ const CourseTab = () => {
 
 
   // fetch the course details
-  const {data:courseByIdData,isLoading:courseByIdLoading} = useGetCourseByIdQuery(courseId);
+  const {data:courseByIdData,isLoading:courseByIdLoading,refetch} = useGetCourseByIdQuery(courseId);
   // const course = courseByIdData?.course;
   useEffect(()=>{
     if(courseByIdData?.course){
@@ -112,7 +114,37 @@ const CourseTab = () => {
       
     }
   },[courseByIdData])
-  const isPublished = true;
+
+  //publish mutation
+  const [publishCourse] = usePublishCourseMutation()
+
+  const publishStatusHander = async(action) => {
+    try {
+      const response = await publishCourse({courseId,query:action});
+      if(response.data){
+        toast.success(response.data.message);
+        refetch();
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error("Failed to Publish or Unpublish course")
+    }
+
+  }
+
+
+      const [removeCourse,{data:removeCourseData,isLoading:removeCourseLoading,isSuccess:removeCourseSuccess}] = useRemoveCourseMutation()
+      const removeCourseHandler = async () => {
+        await removeCourse({courseId})
+      }
+
+       useEffect(()=>{
+              if(removeCourseSuccess){
+                  toast.success(removeCourseData.message)
+                  navigate("/admin/course")
+              }
+          },[removeCourseSuccess])
+
   return (
     <Card>
       <CardHeader className="flex flex-row justify-between">
@@ -123,10 +155,10 @@ const CourseTab = () => {
           </CardDescription>
         </div>
         <div className="space-x-2">
-          <Button variant="outline">
-            {isPublished ? "Unpublished" : "Published"}
+          <Button variant="outline" onClick={()=>publishStatusHander(courseByIdData?.course.isPublished ? "false" : "true")}>
+            {courseByIdData?.course.isPublished ? "Unpublished" : "Published"}
           </Button>
-          <Button className="bg-purple-800">Remove Course</Button>
+          <Button className="bg-purple-800" onClick={removeCourseHandler}>{ removeCourseLoading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</> : "Remove Course"}</Button>
         </div>
       </CardHeader>
       <CardContent>

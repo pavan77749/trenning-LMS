@@ -8,13 +8,13 @@ import axios from "axios"
 import { toast } from 'sonner'
 import { Progress } from '@/components/ui/progress'
 import { useEditLectureMutation, useGetLectureByIdQuery, useRemoveLectureMutation } from '@/features/api/cousreApi'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
 
 const MEDIA_API = "http://localhost:8080/api/v1/media";
 
 const LectureTab = () => {
-
+    const navigate = useNavigate()
     const [lectureTitle, setLectureTitle] = useState("");
     const [uploadVideoInfo, setUploadVideoInfo] = useState(null);
     const [isFree, setIsFree] = useState(false);
@@ -31,7 +31,7 @@ const LectureTab = () => {
     useEffect(()=>{
         if(lecture){
             setLectureTitle(lecture.lectureTitle)
-            // setIsFree(lecture.isPreviewFree)
+            setIsFree(lecture.isPreviewFree)
             setUploadVideoInfo(lecture.videoInfo)
         }
     },[lecture])
@@ -60,6 +60,7 @@ const LectureTab = () => {
     useEffect(()=>{
         if(removeSuccess){
             toast.success(removeData.message)
+            navigate(`/admin/course/${courseId}/lecture`)
         }
     },[removeSuccess])
 
