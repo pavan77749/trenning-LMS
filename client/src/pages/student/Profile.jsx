@@ -122,8 +122,9 @@ const Profile = () => {
         <h1 className="text-lg font-medium font-bold font-sans">Courses you're enrolled in</h1>
         <div className="grid  grid-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-4 my-4">
           {
-            user.enrolledCourses.length === 0 ? (<h1>You are not enrolled in any Course</h1> ) : (user.enrolledCourses.map((course)=><Course course={course} key={course._id}/>)
+            user?.enrolledCourses.length === 0 ? (<h1>You are not enrolled in any Course</h1> ) : (user?.enrolledCourses.map((course,index)=><Course course={course} key={course._id || index}/>)
           )}
+        
         </div>
         </div>
     </div>

@@ -102,7 +102,7 @@ export const Navbar = () => {
 };
 
 const MobileNavbar = () => {
-  const role = "instructor"
+  const { role } = useSelector((store) => store.auth);
 
   const [logoutUser, { data, isSuccess }] = useLogoutUserMutation();
   const navigate = useNavigate();
@@ -127,9 +127,11 @@ const MobileNavbar = () => {
     </SheetTrigger>
     <SheetContent className="flex flex-col">
       <SheetHeader className="flex flex-row items-center justify-between mt-2">
+          <Link to="/">
         <SheetTitle className=" font-extrabold text-xl font-sans text-purple-800 dark:text-white">
-            trenning      
+        trenning
         </SheetTitle>
+          </Link>    
         <DarkMode />
       </SheetHeader>
       <Separator className="mr-2"/>
