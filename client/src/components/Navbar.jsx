@@ -103,6 +103,20 @@ export const Navbar = () => {
 
 const MobileNavbar = () => {
   const role = "instructor"
+
+  const [logoutUser, { data, isSuccess }] = useLogoutUserMutation();
+  const navigate = useNavigate();
+
+  const logoutHandler = async () => {
+    await logoutUser();
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(data?.message || "User Logout");
+      navigate("/login");
+    }
+  }, [isSuccess]);
     return(
 
     <Sheet>
@@ -120,15 +134,15 @@ const MobileNavbar = () => {
       </SheetHeader>
       <Separator className="mr-2"/>
       <nav className="flex flex-col space-y-4">
-        <span>My Learning</span>
-        <span>Edit Profile</span>
-        <span>Logout</span>
+       <Link to="my-learning"> My Learning</Link>
+        <Link to="profile"><span>Edit Profile</span></Link>
+        <span onClick={logoutHandler}>Logout</span>
       </nav>
       {
         role === "instructor" && (
       <SheetFooter>
         <SheetClose asChild>
-          <Button type="submit">Dashboard</Button>
+          <Button type="submit" onClick={()=>navigate('/admin/dashboard')}>Dashboard</Button>
         </SheetClose>
       </SheetFooter>
         )
