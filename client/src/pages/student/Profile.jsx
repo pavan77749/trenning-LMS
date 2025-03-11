@@ -23,6 +23,7 @@ const Profile = () => {
   const [profilePhoto, setProfilePhoto] =useState("")
 
   const {data, isLoading,refetch} = useLoadUserQuery();
+
   const [updateUser,{data:updateUserData,isLoading:updateUserIsLoading,isError,error,isSuccess}] = useUpdateUserMutation();
 
   const onChangeHandler = (e)=> {
