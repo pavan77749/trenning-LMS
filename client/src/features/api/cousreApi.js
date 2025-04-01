@@ -1,6 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const COURSE_API = "http://localhost:8080/api/v1/course";
+// Replace hardcoded localhost URL with environment variable or direct deployment URL
+const COURSE_API = import.meta.env.VITE_API_URL 
+  ? `${import.meta.env.VITE_API_URL}/api/v1/course` 
+  : "https://trenning-lms.onrender.com/api/v1/course";
 
 export const courseApi = createApi({
   reducerPath: "courseApi",
