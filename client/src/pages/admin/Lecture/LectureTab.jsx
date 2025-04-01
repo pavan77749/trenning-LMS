@@ -11,7 +11,9 @@ import { useEditLectureMutation, useGetLectureByIdQuery, useRemoveLectureMutatio
 import { useNavigate, useParams } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
 
-const MEDIA_API = "http://localhost:8080/api/v1/media";
+const MEDIA_API = import.meta.env.VITE_API_URL 
+  ? `${import.meta.env.VITE_API_URL}/api/v1/media` 
+  : "https://trenning-lms.onrender.com/api/v1/media";
 
 const LectureTab = () => {
     const navigate = useNavigate()
@@ -30,9 +32,9 @@ const LectureTab = () => {
 
     useEffect(()=>{
         if(lecture){
-            setLectureTitle(lecture.lectureTitle)
-            setIsFree(lecture.isPreviewFree)
-            setUploadVideoInfo(lecture.videoInfo)
+            setLectureTitle(lecture?.lectureTitle)
+            setIsFree(lecture?.isPreviewFree)
+            setUploadVideoInfo(lecture?.videoInfo)
         }
     },[lecture])
 
@@ -50,23 +52,23 @@ const LectureTab = () => {
 
     useEffect(()=>{
         if(isSuccess){
-            toast.success(data.message);
+            toast.success(data?.message || "Lecture updated successfully");
         }
         if(error){
-            toast.error(error.data.message)
+            toast.error(error?.data?.message || "Failed to update lecture")
         }
     },[isSuccess,error])
 
     useEffect(()=>{
         if(removeSuccess){
-            toast.success(removeData.message)
+            toast.success(removeData?.message || "Lecture removed successfully")
             navigate(`/admin/course/${courseId}/lecture`)
         }
     },[removeSuccess])
 
     //help to upload the file on the cloudinary
     const fileChangeHandler = async (e) => {
-        const file = e.target.files[0];
+        const file = e.target.files?.[0];
         if(file){
             const formData = new FormData;
             formData.append("file",file);
@@ -78,15 +80,18 @@ const LectureTab = () => {
                         setuploadProgress(parseFloat(progress));
                     }
                 });
-                if(res.data.success){
+                if(res?.data?.success){
                     console.log(res)
-                    setUploadVideoInfo({videoUrl:res.data.data.url, publicId:res.data.data.public_id})
+                    setUploadVideoInfo({
+                        videoUrl: res?.data?.data?.url, 
+                        publicId: res?.data?.data?.public_id
+                    })
                     setBtnDisable(false)
-                    toast.success(res.data.message);
+                    toast.success(res?.data?.message || "Video uploaded successfully");
                 }
             } catch (error) {
                 console.log(error)
-                toast.error("video upload failed");
+                toast.error(error?.response?.data?.message || "Video upload failed");
             }
             finally{
                 setMediaProgress(false)

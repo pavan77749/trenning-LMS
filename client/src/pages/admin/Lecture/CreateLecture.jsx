@@ -24,14 +24,14 @@ const CreateLecture = () => {
 
     // fetch the lecture details
     const {data:lectureData , isLoading:lectureLoading ,isError:lectureError,refetch} = useGetCourseLectureQuery(courseId)
-    // console.log(lectureData)
+    
     useEffect(()=>{
         if(isSuccess){
-            toast.success(data.message || "Lecture Title Created")
+            toast.success(data?.message || "Lecture Title Created")
             refetch()
         }
         if(error){
-            toast.error(error.message || "Failed to create lecture Title")
+            toast.error(error?.data?.message || "Failed to create lecture Title")
         }
     },[isSuccess,error])
   return (
@@ -56,9 +56,9 @@ const CreateLecture = () => {
             </div>
             <div className="mt-10">
                 {
-                    lectureLoading ? (<p>Lecture Loading....</p>) : lectureError ? (<p>Failed to Load Lecture</p>) : lectureData.lectures.length === 0 ? <p>No lecture available</p> : (
-                        lectureData.lectures.map((lecture,index)=>(
-                            <Lecture key={lecture._id} lecture={lecture} index={index} courseId={courseId}/>
+                    lectureLoading ? (<p>Lecture Loading....</p>) : lectureError ? (<p>Failed to Load Lecture</p>) : (lectureData?.lectures?.length === 0) ? <p>No lecture available</p> : (
+                        lectureData?.lectures?.map((lecture,index)=>(
+                            <Lecture key={lecture?._id} lecture={lecture} index={index} courseId={courseId}/>
                         ))
                     )
                     

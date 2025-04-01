@@ -65,17 +65,17 @@ const Login = () => {
   
   useEffect(()=>{
     if(registerIsSuccess && registerData){
-      toast.success(registerData.message || 'Signup successfully')
+      toast.success(registerData?.message || 'Signup successfully')
     }
     if(registerError){
-      toast.error(registerError.data.message || 'Signup Failed')
+      toast.error(registerError?.data?.message || 'Signup Failed')
     }
     if(loginIsSuccess && loginData){
-      toast.success(loginData.message || 'login successfully')
+      toast.success(loginData?.message || 'Login successfully')
       navigate("/")
     }
     if(loginError){
-      toast.error(loginError.data.message || 'Signup Failed')
+      toast.error(loginError?.data?.message || 'Login Failed')
     }
 
   },[
@@ -183,7 +183,7 @@ const Login = () => {
               </div>
             </CardContent>
             <CardFooter>
-              <Button disabled={loginIsLoading} onClick={() => handleRegistration("login")} className="bg-purple-800 hover:bg-purple-900 text-white w-full" >{loginIsLoading ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/></>) :"Login" } </Button>
+              <Button disabled={loginIsLoading} onClick={() => handleRegistration("login")} className="bg-purple-800 hover:bg-purple-900 text-white w-full" >{loginIsLoading ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/> Please wait</>) :"Login" } </Button>
             </CardFooter>
           </Card>
         </TabsContent>
