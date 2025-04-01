@@ -20,7 +20,11 @@ const PORT = process.env.PORT || 8000;
 
 //default middleware
 // app.use(bodyParser.json())
-app.use(express.json())
+// For Stripe webhook handling - must be before other middleware
+app.use('/api/v1/purchase/webhook', express.raw({type: 'application/json'}));
+
+// For other routes, use the regular JSON parser
+app.use(express.json());
 app.use(cookieParser())
 const corsOptions = {
   origin: [
