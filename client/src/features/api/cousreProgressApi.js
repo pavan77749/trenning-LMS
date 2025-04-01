@@ -1,17 +1,33 @@
 
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { userLoggedOut } from "../authSlice";
 
 const COURSE_PROGRESS_API = import.meta.env.VITE_API_URL 
   ? `${import.meta.env.VITE_API_URL}/api/v1/progress` 
   : "https://trenning-lms.onrender.com/api/v1/progress";
 
+// Create a custom base query with error handling
+const baseQueryWithErrorHandling = async (args, api, extraOptions) => {
+  const baseQuery = fetchBaseQuery({
+    baseUrl: COURSE_PROGRESS_API,
+    credentials: "include",
+  });
+  
+  const result = await baseQuery(args, api, extraOptions);
+  
+  // Handle 401 Unauthorized errors
+  if (result.error && result.error.status === 401) {
+    // Dispatch logout action
+    api.dispatch(userLoggedOut());
+    return { error: { status: 401, data: { message: "Please login to continue" } } };
+  }
+  
+  return result;
+};
 
 export const courseProgressApi = createApi({
   reducerPath: "courseProgressApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: COURSE_PROGRESS_API,
-    credentials: "include",
-  }),
+  baseQuery: baseQueryWithErrorHandling,
   endpoints: (builder) => ({
     getCourseProgress: builder.query({
       query: (courseId) => ({
