@@ -46,16 +46,15 @@ const Profile = () => {
   useEffect(()=>{
     if(isSuccess){
       refetch();
-      toast.success(data?.message || "Profile Updated")
+      toast.success(updateUserData?.message || "Profile Updated")
     }
     if(isError){
-      toast.error(error?.message || "Failed to Update profile")
+      toast.error(error?.data?.message || "Failed to Update profile")
     }
   }, [error, updateUserData, isSuccess, isError])
 
   
-  const user = data && data?.user;
-  // console.log(user)
+  const user = data?.user;
 
   return (
     <>{
@@ -69,13 +68,13 @@ const Profile = () => {
           </Avatar>
           <div className="ml-4">
             <div className="mb-2">
-              <h1 className='font-semibold font-sans text-gray-900 dark:text-gray-100 '>Name: <span className='font-normal text-gray-700 dark:text-gray-300'>{user.name}</span></h1>
+              <h1 className='font-semibold font-sans text-gray-900 dark:text-gray-100 '>Name: <span className='font-normal text-gray-700 dark:text-gray-300'>{user?.name || "N/A"}</span></h1>
             </div>
             <div className="mb-2">
-              <h1 className='font-semibold font-sans text-gray-900 dark:text-gray-100 '>Email: <span className='font-normal text-gray-700 dark:text-gray-300'>{user.email}</span></h1>
+              <h1 className='font-semibold font-sans text-gray-900 dark:text-gray-100 '>Email: <span className='font-normal text-gray-700 dark:text-gray-300'>{user?.email || "N/A"}</span></h1>
             </div>
             <div className="mb-2">
-              <h1 className='font-semibold font-sans text-gray-900 dark:text-gray-100 '>Role: <span className='font-normal text-gray-700 dark:text-gray-300'>{user.role.toUpperCase()}</span></h1>
+              <h1 className='font-semibold font-sans text-gray-900 dark:text-gray-100 '>Role: <span className='font-normal text-gray-700 dark:text-gray-300'>{user?.role?.toUpperCase() || "N/A"}</span></h1>
             </div>
             <Dialog>
       <DialogTrigger asChild>
@@ -123,8 +122,10 @@ const Profile = () => {
         <h1 className="text-lg font-medium font-bold font-sans">Courses you're enrolled in</h1>
         <div className="grid  grid-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-4 my-4">
           {
-            user?.enrolledCourses.length === 0 ? (<h1>You are not enrolled in any Course</h1> ) : (user?.enrolledCourses.map((course,index)=><Course course={course} key={course._id || index}/>)
-          )}
+            !user?.enrolledCourses || user?.enrolledCourses?.length === 0 ? 
+            (<h1>You are not enrolled in any Course</h1>) : 
+            (user?.enrolledCourses?.map((course,index)=><Course course={course} key={course?._id || index}/>))
+          }
         
         </div>
         </div>
