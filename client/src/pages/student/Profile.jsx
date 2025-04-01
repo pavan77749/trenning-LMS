@@ -17,12 +17,17 @@ import Course from './Course'
 import { Skeleton } from "@/components/ui/skeleton"
 import { useLoadUserQuery, useUpdateUserMutation } from '@/features/api/authApi'
 import { toast } from 'sonner'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { userLoggedOut } from '@/features/authSlice'
 
 const Profile = () => {
   const [name,setName ] = useState("");
   const [profilePhoto, setProfilePhoto] =useState("")
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const {data, isLoading,refetch} = useLoadUserQuery();
+  const {data, isLoading, refetch, error: loadUserError, isError: isLoadUserError} = useLoadUserQuery();
 
   const [updateUser,{data:updateUserData,isLoading:updateUserIsLoading,isError,error,isSuccess}] = useUpdateUserMutation();
 
@@ -40,8 +45,18 @@ const Profile = () => {
   }
 
   useEffect(() => {
-    refetch();
+    refetch().catch(err => {
+      console.error("Error refetching user data:", err);
+    });
   }, []);
+
+  useEffect(() => {
+    if (isLoadUserError && loadUserError?.status === 401) {
+      toast.error("Session expired. Please login again.");
+      dispatch(userLoggedOut());
+      navigate('/login');
+    }
+  }, [isLoadUserError, loadUserError]);
 
   useEffect(()=>{
     if(isSuccess){
