@@ -46,15 +46,15 @@ const Profile = () => {
   useEffect(()=>{
     if(isSuccess){
       refetch();
-      toast.success(data.message || "Profile Updated")
+      toast.success(data?.message || "Profile Updated")
     }
     if(isError){
-      toast.error(error.message || "Failed to Update profile")
+      toast.error(error?.message || "Failed to Update profile")
     }
   }, [error, updateUserData, isSuccess, isError])
 
   
-  const user = data && data.user;
+  const user = data && data?.user;
   // console.log(user)
 
   return (

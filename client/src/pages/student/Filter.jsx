@@ -32,18 +32,18 @@ const Filter = ({ handleFilterChange }) => {
 
   const handleCategoryChange = (categoryId) => {
     setSelectedCategories((prevCategories) => {
-      const newCategories = prevCategories.includes(categoryId)
-        ? prevCategories.filter((id) => id !== categoryId)
-        : [...prevCategories, categoryId];
+      const newCategories = prevCategories?.includes(categoryId)
+        ? prevCategories?.filter((id) => id !== categoryId)
+        : [...(prevCategories || []), categoryId];
 
-        handleFilterChange(newCategories, sortByPrice);
+        handleFilterChange?.(newCategories, sortByPrice);
         return newCategories;
     });
   };
 
   const selectByPriceHandler = (selectedValue) => {
     setSortByPrice(selectedValue);
-    handleFilterChange(selectedCategories, selectedValue);
+    handleFilterChange?.(selectedCategories, selectedValue);
   }
   return (
     <div className="w-full md:w-[20%]">
@@ -65,14 +65,14 @@ const Filter = ({ handleFilterChange }) => {
       <Separator className="my-4" />
       <div>
         <h1 className="font-semibold mb-2">CATEGORY</h1>
-        {categories.map((category) => (
-          <div className="flex items-center space-x-2 my-2">
+        {categories?.map((category) => (
+          <div className="flex items-center space-x-2 my-2" key={category?.id}>
             <Checkbox
-              id={category.id}
-              onCheckedChange={() => handleCategoryChange(category.id)}
+              id={category?.id}
+              onCheckedChange={() => handleCategoryChange(category?.id)}
             />
             <Label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-              {category.label}
+              {category?.label}
             </Label>
           </div>
         ))}

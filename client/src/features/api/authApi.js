@@ -8,9 +8,14 @@ const AUTH_API = import.meta.env.VITE_API_URL
 
 export const authApi = createApi({
   reducerPath: "authApi",
+  // Add withCredentials: true to ensure cookies are sent with requests
   baseQuery: fetchBaseQuery({
     baseUrl: AUTH_API,
     credentials: "include",
+    prepareHeaders: (headers) => {
+      headers.set('Content-Type', 'application/json');
+      return headers;
+    }
   }),
     endpoints: (builder) => ({
         registerUser: builder.mutation({

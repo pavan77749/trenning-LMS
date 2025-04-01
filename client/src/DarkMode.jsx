@@ -12,7 +12,7 @@ import {useTheme}  from "@/components/ThemeProvider"
 
 
 const DarkMode = () => {
-const {setTheme} = useTheme()
+const {setTheme} = useTheme() || {}
   return (
     <DropdownMenu>
     <DropdownMenuTrigger asChild>
@@ -23,10 +23,10 @@ const {setTheme} = useTheme()
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end" className="cursor-pointer">
-      <DropdownMenuItem onClick={() => setTheme("light")} className="cursor-pointer">
+      <DropdownMenuItem onClick={() => setTheme?.("light")} className="cursor-pointer">
         Light
       </DropdownMenuItem>
-      <DropdownMenuItem onClick={() => setTheme("dark")} className="cursor-pointer">
+      <DropdownMenuItem onClick={() => setTheme?.("dark")} className="cursor-pointer">
         Dark
       </DropdownMenuItem>
     </DropdownMenuContent>

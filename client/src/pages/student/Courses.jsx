@@ -3,11 +3,9 @@ import { Card, CardContent } from "@/components/ui/card"
 import Course from "./Course";
 import { useGetPublishedCourseQuery } from "@/features/api/cousreApi";
 
-
-
 const Courses = () => {
   const {data,isLoading,isError} = useGetPublishedCourseQuery()
-  console.log(data);
+  
   if(isError) return <h1>Some error Occured while fetching courses</h1>
   return (
     <div className="bg-gray-50">
@@ -15,11 +13,11 @@ const Courses = () => {
             <h2 className="font-sans text-4xl text-center font-extrabold mb-10">Our Courses</h2>
             <div className="grid-cols-1 grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {
-                isLoading ? Array.from({length:8}).map((_,index) => (<CourseSkeleton key={index}/>))   : data?.courses &&  data.courses.map((course,index) => <Course key={index} course={course}/>)
+                isLoading ? Array.from({length:8}).map((_,index) => (<CourseSkeleton key={index}/>)) : 
+                data?.courses?.map((course,index) => <Course key={index} course={course}/>)
             }   
             </div>
         </div>
-
     </div>
   )
 }
