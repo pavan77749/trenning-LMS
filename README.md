@@ -105,7 +105,6 @@ trenning-LMS/
 │   └── index.js            # Server entry point
 └── ...
 
-## API Endpoints
 ### User Routes
 - POST /api/v1/user/register - Register a new user
 - POST /api/v1/user/login - Login user
